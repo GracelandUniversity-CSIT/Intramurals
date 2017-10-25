@@ -1,0 +1,83 @@
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools" ng-if="!!matchesVm.sport.name">
+		<span>{{matchesVm.sport.name}}</span>
+    <span flex></span>
+    <span class="md-warn" ng-if="!matchesVm.sport.inSeason">Not in season</span>
+  </div>
+</md-toolbar>
+<md-content layout="column" ng-cloak flex layout-padding md-scroll-y ng-if="matchesVm.sport.inSeason">
+  <md-tabs flex class="md-primary" md-selected="matchesVm.tabIndex">
+    <md-tab label="overall" layout="column" flex>
+
+      <div layout="row" layout-margin ng-if="matchesVm.sport.entrant">
+        <div flex><!--<p ng-if="rootVm.currentUser.$id">Number of Participants: {{0}}</p>--></div>
+	<div layout-align="end center">
+	<md-button ng-if="rootVm.currentUser.$id" class="md-raised md-primary" aria-label="edit team" ng-click="matchesVm.clickAddTeams()">
+            <span>Edit teams</span>
+        </md-button>
+        <md-button ng-if="rootVm.currentUser.$id" class="md-raised md-warn" aria-label="clear" ng-click="matchesVm.clickClear()">Clear</md-button>
+	</div>
+      </div>
+      <md-table-container flex ng-if="matchesVm.sport.entrant">
+        <table md-table>
+          <thead md-head>
+            <tr md-row>
+              <th md-column>Teams</th>
+              <th md-column>Wins</th>
+              <th md-column>Loss</th>
+              <th md-column>Ties</th>
+              <th md-column>W/L Ratio</th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row class="button-pointer" ng-repeat="t in matchesVm.entrant | orderBy: 'wlratio'" ng-click="matchesVm.clickTeam(t, $index)">
+              <td md-cell>{{t.name}}</td>
+              <td md-cell>{{matchesVm.overall[t.$id].wins}}</td>
+              <td md-cell>{{matchesVm.overall[t.$id].losses}}</td>
+              <td md-cell>{{matchesVm.overall[t.$id].ties}}</td>
+              <td md-cell>{{matchesVm.overall[t.$id].wlratio | number: 2}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <div flex layout="column" layout-align="center center" layout-margin ng-if="!matchesVm.sport.entrant">
+          <h4>There are no teams in this sport. Click <a class="active" ng-click="matchesVm.clickAddTeams()">here</a> to add teams</h4>
+      </div>
+    </md-tab>
+    <md-tab label="{{matchesVm.selectedTeam.name}}" layout="column" flex ng-show="matchesVm.showTeam" ng-disabled="!matchesVm.showTeam">
+        <div ng-if="rootVm.currentUser.$id" layout="row" layout-align="start center" layout-margin>
+            <span flex></span>
+          <md-button ng-if="rootVm.currentUser.$id" class="md-raised md-primary" aria-label="add game" ng-click="matchesVm.addMatch($event, matchesVm.selectedTeam)">
+              <span>New game</span>
+          </md-button>
+        </div>
+      <md-table-container flex>
+        <table md-table>
+          <thead md-head>
+            <tr md-row>
+              <th md-column>Opponent</th>
+              <th md-column>Score</th>
+              <th md-column>Result</th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row ng-repeat="m in matchesVm.overallMatches[matchesVm.selectedTeam.$id] | orderBy: '-scheDate'"
+                ng-click="matchesVm.clickMatch(m.$id)"
+              md-auto-select>
+              <td md-cell>{{matchesVm.getMatchName(m.name, matchesVm.selectedTeam.name)}}</td>
+              <td md-cell>
+                  <span ng-if="m.touched">{{m[matchesVm.selectedTeam.$id].opponentScore + ' - ' + m[matchesVm.selectedTeam.$id].score}}</span>
+                  <span ng-if="!m.touched">{{matchesVm.formatDate(m.scheDate)}}</span>
+              </td>
+              <td md-cell>
+                  <!-- {{matchesVm.prelim.score[matchesVm.rrTable[matchesVm.slotIdx][$index]][matchesVm.selectedTeam.id].result}} -->
+                  <span ng-if="m.touched">{{m[matchesVm.selectedTeam.$id].result}}</span>
+                  <span ng-if="!m.touched">-</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+    </md-tab>
+  </md-tabs>
+</md-content>

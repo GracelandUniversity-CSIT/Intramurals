@@ -1,0 +1,39 @@
+<md-toolbar class="view-toolbar md-tall">
+  <div flex class="md-toolbar-tools">
+    <input ng-model="teamsVm.filterParams.name" placeholder="Search team name here" class="toolbar-text-input"/>
+    <span flex></span>
+    <md-button ng-if="rootVm.currentUser.$id" class="md-primary md-raised" aria-label="add" ng-click="teamsVm.clickNew()">New team</md-button>
+  </div>
+  <div flex class="md-toolbar-tools">
+    <md-select ng-model="teamsVm.filterParams.league" placeholder="League" flex>
+      <md-option aria-label="any" value="">Any league</md-option>
+      <md-divider></md-divider>
+      <md-option aria-label="No league" value="N">No league</md-option>
+      <md-option aria-label="A league" value="A">A league</md-option>
+      <md-option aria-label="B league" value="B">B league</md-option>
+      <md-option aria-label="C league" value="C">C league</md-option>
+    </md-select>
+    <span flex></span>
+    <md-select ng-model="teamsVm.filterParams.membersLabel" placeholder="House" flex>
+      <md-option aria-label="" value="">Any house</md-option>
+      <md-divider></md-divider>
+      <md-option aria-label="{{h.name}}" ng-repeat="(house, houseInfo) in teamsVm.houses" ng-value="houseInfo.name">{{houseInfo.name}}</md-option>
+    </md-select>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<md-content flex layout="row">
+  <md-list flex>
+    <md-list-item class="md-2-line secondary-button-padding"
+      ng-repeat="teamInfo in teamsVm.teams | orderBy: 'name' | filter: teamsVm.filterParams"
+      ng-click="teamsVm.clickTeam(teamInfo.$id)">
+      <div class="md-list-item-text">
+        <h3>{{teamInfo.name}}</h3>
+        <p><i>{{teamInfo.membersLabel}}</i></p>
+      </div>
+      <md-divider></md-divider>
+      <md-button ng-if="rootVm.currentUser.$id" aria-label="edit" class="md-primary md-raised" ng-click="teamsVm.clickEdit($event, teamInfo.$id)">Edit</md-button>
+      <!-- <md-button ng-if="rootVm.currentUser.$id" aria-label="edit" class="md-primary md-raised" ng-click="teamsVm.clickDelete($event, teamInfo.$id)" ng-disabled="true">Delete</md-button> -->
+    </md-list-item>
+  </md-list>
+</md-content>

@@ -1,0 +1,22 @@
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools">
+      <input class="toolbar-text-input" type="text" placeholder="Events" ng-model="gamesVm.name"/>
+      <span flex></span>
+      <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" class="md-raised md-primary" aria-label="add game" ng-click="gamesVm.clickAdd($event)">Add</md-button>
+  </div>
+</md-toolbar>
+<md-content layout="column" ng-cloak flex layout-margin md-scroll-y>
+  <md-list>
+    <md-list-item class="secondary-button-padding button-pointer" ng-disabled="!sport.inSeason" ng-click="gamesVm.clickGame(sport.$id)" ng-repeat="sport in gamesVm.sports | filter: gamesVm.name">
+        <div flex class="md-list-item-text">
+            <h4 ng-class="{faded: !sport.inSeason, active: sport.inSeason}">{{sport.name}}</h4>
+        </div>
+        <div>
+          <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="edit" ng-click="gamesVm.clickEdit($event, sport)" class="md-primary md-raised">Edit</md-button>
+          <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="edit" ng-click="gamesVm.clickDelete($event, sport)" class="md-primary md-raised">Delete</md-button>
+        </div>
+
+        <md-divider></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>

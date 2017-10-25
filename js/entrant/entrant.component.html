@@ -1,0 +1,19 @@
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools" ng-if="!!entrantVm.sport.name">
+	<span>{{entrantVm.sport.name + ' Teams'}}</span>
+    <span flex></span>
+    <md-button class="md-raised md-accent" aria-label="save" ng-click="entrantVm.clickSave()">
+      Save
+    </md-button>
+  </div>
+</md-toolbar>
+<md-content layout="column" ng-cloak flex layout-margin md-scroll-y>
+  <md-list flex>
+    <md-list-item class="secondary-button-padding" ng-repeat="team in entrantVm.teams">
+      <p>{{team.name}}</p>
+      <md-checkbox class="md-secondary" ng-disabled="entrantVm.teamsToDisable[team.id]"
+        ng-model="entrantVm.sport.entrant[team.$id]"></md-checkbox>
+      <md-divider></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>

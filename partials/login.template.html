@@ -1,0 +1,41 @@
+<md-dialog aria-label="log in dialog" flex="50" flex-xs="90">
+  <form ng-submit="loginVm.submit()" name="loginForm">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <span>Log in</span>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content" flex layout="column">
+        <div ng-messages="loginVm.errors" style="color:red" flex>
+    			<div ng-message="blank">Please enter login combination</div>
+    			<div ng-message="INVALID_PASSWORD">Incorrect password.</div>
+    			<div ng-message="auth/user-not-found">Email is not registered.</div>
+    			<div ng-message="forgotEmail">Please enter your email login.</div>
+    			<div ng-message="forgotSent">Recovery email sent. It may take a few minutes.</div>
+          <div ng-message="auth/wrong-password">The password is invalid or the user does not have a password.</div>
+        </div>
+    		<div flex="10"></div>
+    		<md-input-container flex>
+    			<label>Email</label>
+    			<input type="email" name="email" ng-model="loginVm.email" required>
+    			<div ng-messages="loginForm.email.$error">
+    				<div ng-message-exp="['required', 'email']">Please enter your login email</div>
+    			</div>
+    		</md-input-container>
+    		<md-input-container flex>
+    			<label>Password</label>
+    			<input type="password" required name="password" ng-model="loginVm.password">
+    			<div ng-messages="loginForm.password.$error">
+    				<div ng-message="required">Please enter your password</div>
+    			</div>
+    		</md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button aria-label="submit" class="md-raised md-primary" type="submit">Submit</md-button>
+      <md-button aria-label="cancel" class="md-raised md-warn" ng-click="loginVm.close()">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

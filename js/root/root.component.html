@@ -1,0 +1,26 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <span>Graceland University Intramurals</span>
+    <span flex></span>
+    <md-button aria-label="log in" ng-hide="rootVm.currentUser.$id" ng-click="rootVm.signIn()" class="md-raised md-accent">Sign in</md-button>
+    <md-button aria-label="log out" ng-show="rootVm.currentUser.$id" ng-click="rootVm.signOut()" class="md-raised md-accent">Sign Out</md-button>
+  </div>
+</md-toolbar>
+<md-tabs>
+  <md-tab md-active="rootVm.state == root.games" md-on-select="rootVm.goto('root.games')">Games</md-tab>
+  <md-tab md-active="rootVm.state == root.teams" ng-if="rootVm.currentUser.$id" md-on-select="rootVm.goto('root.teams')">Teams</md-tab>
+  <md-tab md-active="rootVm.state == root.people" ng-if="rootVm.currentUser.$id" md-on-select="rootVm.goto('root.people')">People</md-tab>
+  
+  <md-tab md-active="rootVm.state == root.account" ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" md-on-select="rootVm.goto('root.account')">Accounts</md-tab>
+  <md-tab md-active="rootVm.state == root.participation" ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" md-on-select="rootVm.goto('root.participation')">Participation</md-tab>
+</md-tabs>
+    <!-- <md-nav-bar nav-bar-aria-label="navigation links" md-selected-nav-item="root">
+      <md-nav-item ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" md-nav-click="rootVm.goto('root.account')" name="account">Accounts</md-nav-item>
+      <md-nav-item ng-if="rootVm.currentUser.$id" md-nav-click="rootVm.goto('root.people')" name="people">People</md-nav-item>
+      <md-nav-item md-nav-click="rootVm.goto('root.games')" name="games">Games</md-nav-item>
+      <md-nav-item ng-if="rootVm.currentUser.$id" md-nav-click="rootVm.goto('root.teams')" name="teams">Teams</md-nav-item>
+      <md-nav-item ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" md-nav-click="rootVm.goto('root.participation')" name="participation">Participation</md-nav-item>
+    </md-nav-bar> -->
+<div layout="row" flex>
+  <div ui-view="mainView" layout="column" flex layout-padding></div>
+</div>

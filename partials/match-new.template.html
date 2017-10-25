@@ -1,0 +1,34 @@
+<md-dialog aria-label="new game" flex="60" flex-xs="90">
+  <form ng-submit="matchNewVm.submit()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <span>New Match Dialog</span>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content new-game-dialog" flex layout="column" layout="center start">
+          <div layout="row">
+              <md-input-container flex>
+                  <label>Team 1</label>
+                  <input aria-label="challenger" ng-model="matchNewVm.team.name" ng-disabled="true" md-autofocus required/>
+              </md-input-container>
+              <div layout="row" layout-align="center center" flex>
+                  <span class="active">VS</span>
+              </div>
+              <md-input-container flex>
+                  <label>Team 2</label>
+                  <md-select aria-label="opponent selector" ng-model="matchNewVm.opponent">
+                      <md-option aria-label="entrant.name" ng-repeat="entrant in matchNewVm.entrant" ng-value="entrant">{{entrant.name}}</md-option>
+                  </md-select>
+              </md-input-container>
+          </div>
+          <time-date-picker flex display-mode="full" ng-model="matchNewVm.newGame.scheDate" orientation="false" autosave="true"></time-date-picker>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button aria-label="submit" class="md-raised md-primary" type="submit" ng-disabled="!matchNewVm.opponent">Submit</md-button>
+      <md-button aria-label="cancel" class="md-raised md-warn" ng-click="matchNewVm.close()">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

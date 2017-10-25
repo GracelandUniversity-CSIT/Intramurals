@@ -1,0 +1,295 @@
+<md-toolbar class="view-toolbar md-tall">
+  <div flex class="md-toolbar-tools">
+		<h4>{{matchesInfoVm.sport.name}}</h4>
+    <span flex></span>
+  </div>
+  <div flex class="md-toolbar-tools">
+    <div flex class="center">
+        <span class="active">{{matchesInfoVm.match.name.split(' VS ')[0]}}</span>
+    </div>
+    <div flex class="center">
+        <span> VS </span>
+    </div>
+    <div flex class="center">
+        <span class="active">{{matchesInfoVm.match.name.split(' VS ')[1]}}</span>
+    </div>
+  </div>
+</md-toolbar>
+<md-content flex layout="row">
+  <md-tabs flex class="md-primary" md-selected="matchesInfoVm.tabIndex">
+    <md-tab label="Schedule" layout="column" flex>
+      <h3 ng-hide="matchesInfoVm.match.touched">
+        <span ng-hide="matchesInfoVm.slot.date === '-'">This game is scheduled at : </span>
+        <span ng-show="matchesInfoVm.slot.date === '-'">Please schedule a time for this game</span>
+      </h3>
+      <div layout="row" layout-margin>
+				<div flex></div>
+				<time-date-picker ng-hide="matchesInfoVm.match.touched" display-mode="full" ng-model="matchesInfoVm.match.scheDate" orientation="false" on-save="matchesInfoVm.saveDate($value)"></time-date-picker>
+				<div flex></div>
+			</div>
+      <div flex layout="row" layout-margin ng-show="matchesInfoVm.match.touched">
+        <div flex ="20" hide show-gt-sm></div>
+        <md-card flex>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Completed!</span>
+              <span class="md-subhead">{{matchesInfoVm.match.scheDate | date:'MM/dd/yyyy @ h:mma'}}</span>
+            </md-card-title-text>
+          </md-card-title>
+        </md-card>
+        <div flex="20" hide show-gt-sm></div>
+      </div>
+    </md-tab>
+    <md-tab label="Scorecard" layout="column" ng-disabled="!matchesInfoVm.match.scheDate" flex>
+      <form name="Form" flex layout="column">
+        <div layout="column" layout-gt-sm="row" flex layout-margin>
+          <div layout="column" flex layout-padding class="md-whiteframe-z1">
+            <h4>{{matchesInfoVm.teams[0].name}} ({{matchesInfoVm.match[matchesInfoVm.teams[0].$id].result}})</h4>
+            <md-input-container flex>
+              <label>Score</label>
+              <input type="number" name="score1" ng-model="matchesInfoVm.match[matchesInfoVm.teams[0].$id].score" min="0" required>
+              <div ng-messages="Form.score1.$error">
+                <div ng-message="min">
+                  Minimum score is 0
+                </div>
+                <div ng-message="required">
+                  Score is required. (Set to 0 for default)
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex>
+              <label>SP Points</label>
+              <input type="number" name="sp1" ng-model="matchesInfoVm.match[matchesInfoVm.teams[0].$id].sPts" min="0" max="10" required>
+              <div ng-messages="Form.sp1.$error">
+                <div ng-message="min">
+                  Minimum points is 0
+                </div>
+                <div ng-message="max">
+                  Maximum points is 10
+                </div>
+                <div ng-message="required">
+                  Required for sportmanship points!
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+          <div layout="column" flex layout-padding class="md-whiteframe-z1">
+            <h4>{{matchesInfoVm.teams[1].name}} ({{matchesInfoVm.match[matchesInfoVm.teams[1].$id].result}})</h4>
+            <md-input-container flex>
+              <label>Score</label>
+              <input type="number" name="score2" ng-model="matchesInfoVm.match[matchesInfoVm.teams[1].$id].score" min="0" required>
+              <div ng-messages="Form.score2.$error">
+                <div ng-message="min">
+                  Minimum score is 0
+                </div>
+                <div ng-message="required">
+                  Score is required. (Set to 0 for default)
+                </div>
+              </div>
+            </md-input-container>
+            <md-input-container flex>
+              <label>SP Points</label>
+              <input type="number" name="sp2" ng-model="matchesInfoVm.match[matchesInfoVm.teams[1].$id].sPts" min="0" max="10" required>
+              <div ng-messages="Form.sp2.$error">
+                <div ng-message="min">
+                  Minimum points is 0
+                </div>
+                <div ng-message="max">
+                  Maximum points is 10
+                </div>
+                <div ng-message="required">
+                  Required for sportmanship points!
+                </div>
+              </div>
+            </md-input-container>
+          </div>
+        </div>
+        <div layout="row" layout-align="end center">
+          <div layout="column" layout-align="start end" flex layout-margin>
+            <md-input-container>
+              <label># audience</label>
+              <input type="number" ng-model="matchesInfoVm.match.audience"/>
+            </md-input-container>
+            <md-button class="md-accent md-raised" ng-disabled="!Form.$valid" ng-click="matchesInfoVm.saveScoreCard()">Save</md-button>
+          </div>
+        </div>
+      </form>
+    </md-tab>
+    <md-tab label="Attendance" layout="column" ng-disabled="!matchesInfoVm.match.scheDate" flex>
+      <div layout="column" layout-gt-sm="row" flex layout-margin>
+
+        <div layout="column" flex layout-padding class="md-whiteframe-z1">
+          <div layout="row" layout-align="start center">
+            <span>{{matchesInfoVm.teams[0].name}} ({{matchesInfoVm.match[matchesInfoVm.teams[0].$id].result}})</span>
+            <span flex></span>
+            <md-button class="md-raised" aria-label="roster" ng-click="matchesInfoVm.clickTeamRoster(matchesInfoVm.teams[0].$id)">Roster</md-button>
+          </div>
+          <md-list flex>
+            <md-list-item class="secondary-button-padding" ng-repeat="(ros, bool) in matchesInfoVm.teams[0].roster">
+              <span>{{matchesInfoVm.getPersonName(ros)}}</span>
+              <md-checkbox class="md-secondary" aria-label="{{matchesInfoVm.getPersonName(ros)}}" ng-model="matchesInfoVm.match.attendance[ros]"></md-checkbox>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+
+        <div layout="column" flex layout-padding class="md-whiteframe-z1">
+          <div layout="row" layout-align="start center">
+            <span>{{matchesInfoVm.teams[1].name}} ({{matchesInfoVm.match[matchesInfoVm.teams[1].$id].result}})</span>
+            <span flex></span>
+            <md-button class="md-raised" aria-label="roster" ng-click="matchesInfoVm.clickTeamRoster(matchesInfoVm.teams[1].$id)">Roster</md-button>
+          </div>
+          <md-list flex>
+            <md-list-item class="secondary-button-padding" ng-repeat="(ros, bool) in matchesInfoVm.teams[1].roster">
+              <span>{{matchesInfoVm.getPersonName(ros)}}</span>
+              <md-checkbox class="md-secondary" aria-label="{{matchesInfoVm.getPersonName(ros)}}" ng-model="matchesInfoVm.match.attendance[ros]"></md-checkbox>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+      </div>
+
+      <div layout="row" layout-align="end center">
+        <md-button ng-click="matchesInfoVm.saveAttendance()" class="md-primary md-raised">Save Attendance</md-button>
+      </div>
+    </md-tab>
+    <md-tab label="Staff" layout="column" ng-disabled="!matchesInfoVm.match.scheDate" flex>
+      <!-- <div layout="column" layout-gt-sm="row" flex layout-margin>
+        <div flex layout="column" layout-padding class="md-whiteframe-z2">
+          <h4>Paid</h4>
+          <div layout="row" layout-align="start center">
+            <md-autocomplete flex
+              md-no-cache="true"
+              md-selected-item="matchesInfoVm.selectedPaid"
+              md-search-text="matchesInfoVm.searchTextPaid"
+              md-items="person in matchesInfoVm.queryPeople(matchesInfoVm.searchTextPaid) | orderBy: 'name'"
+              md-item-text="person.name"
+              md-min-length="1"
+              placeholder="Search name here">
+              <md-item-template>
+                <span class="item-title">
+                  <span>{{person.name}}</span>
+                </span>
+                <md-not-found>
+                  <span>Cannot find person with name "<i>{{matchesInfoVm.searchTextPaid}}</i>"...</span>
+                </md-not-found>
+              </md-item-template>
+            </md-autocomplete>
+            <md-button class="md-raised" aria-label="add" ng-click="matchesInfoVm.clickPaid()">Add</md-button>
+          </div>
+          <md-list flex>
+            <md-list-item class="secondary-button-padding" ng-repeat="id in matchesInfoVm.paid">
+              <p>{{matchesInfoVm.people[id].name}}</p>
+              <md-button class="md-secondary md-raised" aria-label="remove" ng-click="matchesInfoVm.paidRemove(id)">Remove</md-button>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+        <div flex layout="column" layout-padding class="md-whiteframe-z2">
+          <h4>Volunteer</h4>
+          <div layout="row" layout-align="start center">
+            <md-autocomplete flex
+              md-no-cache="true"
+              md-selected-item="matchesInfoVm.selectedVol"
+              md-search-text="matchesInfoVm.searchTextVol"
+              md-items="person in matchesInfoVm.queryPeople(matchesInfoVm.searchTextVol) | orderBy: 'name'"
+              md-item-text="person.name"
+              md-min-length="1"
+              placeholder="Search name here">
+              <md-item-template>
+                <span class="item-title">
+                  <span>{{person.name}}</span>
+                </span>
+                <md-not-found>
+                  <span>Cannot find person with name "<i>{{matchesInfoVm.searchTextVol}}</i>"...</span>
+                </md-not-found>
+              </md-item-template>
+            </md-autocomplete>
+            <md-button class="md-raised" aria-label="add" ng-click="matchesInfoVm.clickVol()">Add</md-button>
+          </div>
+          <md-list flex>
+            <md-list-item class="secondary-button-padding" ng-repeat="id in matchesInfoVm.vol">
+              <p>{{matchesInfoVm.people[id].name}}</p>
+              <md-button class="md-secondary md-raised" aria-label="remove" ng-click="matchesInfoVm.volRemove(id)">Remove</md-button>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+        <div flex layout="column" layout-padding class="md-whiteframe-z2">
+          <h4>Scorekeeper</h4>
+          <div layout="row" layout-align="start center">
+            <md-autocomplete flex
+              md-no-cache="true"
+              md-selected-item="matchesInfoVm.selectedSck"
+              md-search-text="matchesInfoVm.searchTextSck"
+              md-items="person in matchesInfoVm.queryPeople(matchesInfoVm.searchTextSck) | orderBy: 'name'"
+              md-item-text="person.name"
+              md-min-length="1"
+              placeholder="Search name here">
+              <md-item-template>
+                <span class="item-title">
+                  <span>{{person.name}}</span>
+                </span>
+                <md-not-found>
+                  <span>Cannot find person with name "<i>{{matchesInfoVm.searchTextSck}}</i>"...</span>
+                </md-not-found>
+              </md-item-template>
+            </md-autocomplete>
+            <md-button class="md-raised" aria-label="add" ng-click="matchesInfoVm.clickSck()">Add</md-button>
+          </div>
+          <md-list flex>
+            <md-list-item class="secondary-button-padding" ng-repeat="id in matchesInfoVm.sck">
+              <p>{{matchesInfoVm.people[id].name}}</p>
+              <md-button class="md-secondary md-raised" aria-label="remove" ng-click="matchesInfoVm.sckRemove(id)">Remove</md-button>
+              <md-divider></md-divider>
+            </md-list-item>
+          </md-list>
+        </div>
+      </div> -->
+      <div layout="row" layout-align="end center">
+        <md-button class="md-raised md-primary" ng-click="matchesInfoVm.saveStaff()" aria-label="save staff">Save</md-button>
+      </div>
+      <md-autocomplete flex
+        md-no-cache="true"
+        md-selected-item="matchesInfoVm.selectedStaff"
+        md-selected-item-change="matchesInfoVm.selectedStaffChange()"
+        md-search-text="matchesInfoVm.searchText"
+        md-items="person in matchesInfoVm.queryPeople(matchesInfoVm.searchText) | orderBy: 'name'"
+        md-item-text="person.name"
+        md-min-length="1"
+        placeholder="Staff, Refs, Scorekeeper, etc.">
+        <md-item-template>
+          <span class="item-title">
+            <span>{{person.name}}</span>
+          </span>
+          <md-not-found>
+            <span>Cannot find person with name "<i>{{matchesInfoVm.searchText}}</i>"...</span>
+          </md-not-found>
+        </md-item-template>
+      </md-autocomplete>
+      <md-table-container flex ng-if="matchesInfoVm.staff.length > 0">
+        <table md-table>
+          <thead md-head>
+            <tr md-row>
+              <th md-column>Name</th>
+              <th md-column>Ref.</th>
+              <th md-column>Scorekeeper</th>
+              <th md-column>Paid</th>
+              <th md-column>Volunteer</th>
+
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row ng-repeat="staff in matchesInfoVm.staff | orderBy: 'name'">
+              <td md-cell>{{staff.name}}</td>
+              <td md-cell><md-checkbox aria-label="scorekeeper staff" ng-model="matchesInfoVm.match.referee[staff.$id]"></md-checkbox></td>
+              <td md-cell><md-checkbox aria-label="scorekeeper staff" ng-model="matchesInfoVm.match.scorekeeper[staff.$id]"></md-checkbox></td>
+              <td md-cell><md-checkbox aria-label="paid staff" ng-disabled="matchesInfoVm.match.volunteer[staff.$id]" ng-model="matchesInfoVm.match.paid[staff.$id]"></md-checkbox></td>
+              <td md-cell><md-checkbox aria-label="volunteer staff" ng-disabled="matchesInfoVm.match.paid[staff.$id]" ng-model="matchesInfoVm.match.volunteer[staff.$id]"></md-checkbox></td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+    </md-tab>
+  </md-tabs>
+</md-content>

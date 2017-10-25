@@ -1,0 +1,21 @@
+<!-- <div layout="row">
+  <span>Roster</span>
+  <input type="file" id="xlsFile" multiple/>
+  <button ng-click="peopleVm.addPeopleWithFile()">Submit</button>
+</div> -->
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools" layout-wrap>
+    <input ng-model="peopleVm.filterParams.name" placeholder="Search Name" class="toolbar-text-input"/>
+    <input ng-model="peopleVm.filterParams.houseName" placeholder="Search House Name" class="toolbar-text-input"/>
+    <span flex></span>
+    <md-button ng-if="rootVm.currentUser.$id" aria-label="" class="md-raised md-primary" ng-click="peopleVm.peopleInfoDialog($event)">New</md-button>
+  </div>
+</md-toolbar>
+<md-content md-scroll-y flex>
+  <div layout="column" layout-padding flex>
+    <div class="button-pointer" ng-repeat-start="people in peopleVm.people | orderBy: 'name' | filter: peopleVm.filterParams" ng-click="peopleVm.peopleInfoDialog($event, people.$id)">
+      {{people.name}} - <strong><i>{{people.houseName}}</i></strong>
+    </div>
+    <md-divider ng-repeat-end></md-divider>
+  </div>
+</md-content>

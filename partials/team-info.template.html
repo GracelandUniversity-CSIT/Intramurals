@@ -1,0 +1,31 @@
+<md-dialog aria-label="team info" flex="50" flex-xs="90">
+  <form ng-submit="teamsInfoVm.submit()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <span>Team</span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout="column" layout-margin class="dialog-popup" flex>
+      <div flex layout="column" layout-padding>
+        <md-input-container flex ng-class="{'md-input-invalid': teamsInfoVm.checkTeamNames()}">
+    			<label><span ng-hide="teamsInfoVm.checkTeamNames()">Name</span><span class="md-warn" ng-show="teamsInfoVm.checkTeamNames()">Team Name Taken</span></label>
+    			<input type="text" required ng-model="teamsInfoVm.team.name" name="teamName">
+    		</md-input-container>
+    		<md-input-container flex>
+          <label>Members</label>
+          <md-select ng-model="teamsInfoVm.update" multiple>
+            <md-option ng-repeat="houseObj in teamsInfoVm.houses" ng-value="houseObj.$id">{{houseObj.name}}</md-option>
+          </md-select>
+        </md-input-container>
+    			<md-radio-group ng-model="teamsInfoVm.team.league">
+    				<md-radio-button ng-repeat="l in teamsInfoVm.leagues" value="{{l.value}}">{{l.label}} League</md-radio-button>
+    			</md-radio-group>
+    		</md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button type="submit" class="md-primary md-raised" ng-disabled="teamsInfoVm.checkTeamNames()">Submit</md-button>
+      <md-button aria-label="cancel" ng-click="teamsInfoVm.cancel()">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

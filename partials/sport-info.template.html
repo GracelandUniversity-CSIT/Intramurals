@@ -1,0 +1,36 @@
+<md-dialog aria-label="sport info" flex-xs="90">
+  <form ng-submit="gamesInfoVm.submit()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <span>Games</span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout="column" layout-margin class="dialog-popup">
+      <div layout="row" layout-align="end center" flex>
+        <md-switch ng-model="gamesInfoVm.result.inSeason" aria-label="in season switch">
+          <span ng-if="!gamesInfoVm.result.inSeason">Not</span> In season
+        </md-switch>
+      </div>
+      <md-input-container flex>
+        <label>Name</label>
+        <input type="text" ng-model="gamesInfoVm.result.name">
+      </md-input-container>
+      <md-radio-group layout-wrap flex layout="row" layout-margin ng-model="gamesInfoVm.result.type" layout-align="center center">
+        <md-radio-button value="1">Womens</md-radio-button>
+        <md-radio-button value="2">Mens</md-radio-button>
+        <md-radio-button value="3">Joint</md-radio-button>
+      </md-radio-group>
+      <md-checkbox flex ng-if="!gamesInfoVm.result.$id" ng-repeat="l in gamesInfoVm.leagues" aria-label="leagues" ng-disabled="gamesInfoVm.disableLeague(l.value)" ng-model="gamesInfoVm.result.league[l.value]">{{l.label}}</md-checkbox>
+      <md-radio-group layout-wrap ng-if="gamesInfoVm.result.$id" flex layout="row" layout-margin ng-model="gamesInfoVm.result.league" layout-align="center center" ng-change="gamesInfoVm.leagueChange()">
+        <md-radio-button value="N">No league</md-radio-button>
+        <md-radio-button value="A">A league</md-radio-button>
+        <md-radio-button value="B">B league</md-radio-button>
+        <md-radio-button value="C">C league</md-radio-button>
+      </md-radio-group>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button aria-label="" type="submit" class="md-raised md-primary">Submit</md-button>
+      <md-button aria-label="" class="md-raised md-warn" ng-click="gamesInfoVm.close()">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

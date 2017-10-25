@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Intramurals</title>
+    <link rel="stylesheet" href="static/angular-material.min.css"/>
+    <link rel="stylesheet" href="static/md-data-table.min.css"/>
+    <link rel="stylesheet" href="static/sc-date-time.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css"/>
+  </head>
+  <body layout="row">
+    <div ui-view flex layout="column"></div>
+
+    <script src="static/angular.min.js"></script>
+    <script src="static/xlsx.core.min.js"></script>
+    <script src="static/angular-ui-router.min.js"></script>
+    <script src="static/angular-animate.min.js"></script>
+    <script src="static/angular-aria.min.js"></script>
+    <script src="static/angular-material.min.js"></script>
+    <script src="static/angular-messages.min.js"></script>
+    <script src="static/md-data-table.min.js"></script>
+    <script src="static/sc-date-time.js"></script>
+    <script src="static/angularfire.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+
+    <script src="js/app.modules.js"></script>
+    <script src="js/app.route.js"></script>
+    <script src="js/app.constants.js"></script>
+    <script src="js/config/app.config.js"></script>
+
+    <script src="js/root/root.controller.js"></script>
+
+    <script src="js/account/account.controller.js"></script>
+    <script src="js/account/account-login.controller.js"></script>    
+    <script src="js/account/account.route.js"></script>
+
+    <script src="js/roster/roster.controller.js"></script>
+    <script src="js/roster/roster.route.js"></script>
+
+    <script src="js/entrant/entrant.controller.js"></script>
+    <script src="js/entrant/entrant.route.js"></script>
+
+    <script src="js/games/games.controller.js"></script>
+    <script src="js/games/games.route.js"></script>
+    <script src="js/games/game-info.controller.js"></script>
+    <script src="js/games/game-new.controller.js"></script>
+
+    <script src="js/matches/matches.controller.js"></script>
+    <script src="js/matches/matches-new.controller.js"></script>
+    <script src="js/matches/matches.route.js"></script>
+
+    <script src="js/matches-info/matches-info.controller.js"></script>
+    <script src="js/matches-info/matches-info.route.js"></script>
+
+    <script src="js/participation/participation.route.js"></script>
+    <script src="js/participation/participation.controller.js"></script>
+
+    <script src="js/people/people.controller.js"></script>
+    <script src="js/people/people.route.js"></script>
+    <script src="js/people/people-new.controller.js"></script>
+    <script src="js/people/people-edit.controller.js"></script>
+
+    <script src="js/teams/teams.controller.js"></script>
+    <script src="js/teams/teams.route.js"></script>
+    <script src="js/teams/teams-edit.controller.js"></script>
+    <script src="js/teams/teams-new.controller.js"></script>
+
+    <script src="js/services/app.utility.js"></script>
+    <script src="js/services/main.service.js"></script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools">
+    <h1><i>Team name: <span class="active">{{rosterVm.team.name}}</span></i></h1>
+    <span flex></span>
+    <span>({{rosterVm.team.membersLabel}})</span>
+  </div>
+</md-toolbar>
+<md-content layout="column" flex>
+  <div layout="row" layout-align="start center">
+    <!-- <md-autocomplete flex
+      md-no-cache="true"
+      md-selected-item="rosterVm.selectedPerson"
+      md-search-text="rosterVm.searchText"
+      md-items="person in rosterVm.queryName(rosterVm.searchText) | orderBy: 'name'"
+      md-item-text="(person.team)? person.name + ' is already in a team!' : person.name"
+      md-min-length="1"
+      placeholder="Search name here">
+      <md-item-template>
+				<span class="item-title">
+					<span>{{person.name}}</span>
+				</span>
+                <span class="item-metadata" ng-if="person.team">
+                    <span class="item-metastat"><i class="warn">is already in a team!</i></span>
+                </span>
+        <md-not-found>
+          <span>Cannot find person with name "<i>{{rosterVm.searchText}}</i>"...</span>
+        </md-not-found>
+			</md-item-template>
+    </md-autocomplete> -->
+    <md-select flex ng-model="rosterVm.selectedPeople" md-on-close="rosterVm.filterParam.name = ''" aria-label="possible roster" multiple placeholder="Show house members">
+        <md-select-header class="select-header">
+            <input ng-model="rosterVm.filterParam.name" ng-keydown="$event.stopPropagation();" aria-label="search name" placeholder="Search name here"/>
+        </md-select-header>
+        <md-divider></md-divider>
+        <md-option ng-hide="rosterVm.roster.indexOf(houseMember.$id) > -1" ng-repeat="houseMember in rosterVm.houseMembers | orderBy: 'name' | filter: rosterVm.filterParam"  ng-disabled="houseMember.team" ng-value="houseMember.$id">
+            <span>{{houseMember.name}}<span ng-if="houseMember.team" class="warn-disabled"> is already in other team!</span></span>
+        </md-option>
+    </md-select>
+    <md-button aria-label="add" class="md-raised md-primary" ng-disabled="rosterVm.selectedPeople.length == 0" ng-click="rosterVm.clickAdd(rosterVm.selectedPeople)">Add</md-button>
+  </div>
+  <div layout="row" layout-align="start center">
+      <h2>Roster</h2>
+      <span flex></span>
+      <md-button aria-label="save roster" class="md-raised md-primary" ng-click="rosterVm.clickSave()">Save</md-button>
+      <md-button aria-label="remove" class="md-raised md-warn" ng-click="rosterVm.clearRoster();">Remove All</md-button>
+  </div>
+  <md-list flex>
+    <md-divider></md-divider>
+    <md-list-item class="secondary-button-padding" ng-repeat="r in rosterVm.roster">
+      <p>{{rosterVm.getPersonName(r)}}</p>
+      <md-button aria-label="remove" ng-click="rosterVm.clickRemove(r)">Remove</md-button>
+      <md-divider></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>

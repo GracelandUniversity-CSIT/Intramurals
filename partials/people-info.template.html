@@ -1,0 +1,28 @@
+<md-dialog aria-label="people info" flex="50" flex-xs="90">
+  <form ng-submit="peopleInfoVm.submit()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <span>People Info Dialog</span>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content" flex layout="column">
+        <md-input-container flex>
+          <label>Name</label>
+          <input ng-model="peopleInfoVm.result.name"/>
+        </md-input-container>
+        <md-input-container>
+          <label>House</label>
+          <md-select ng-model="peopleInfoVm.house">
+            <md-option aria-label="key" ng-repeat="house in peopleInfoVm.houses" ng-value="house.$id">{{house.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button aria-label="submit" class="md-raised md-primary" type="submit">Submit</md-button>
+      <md-button aria-label="cancel" class="md-raised md-warn" ng-click="peopleInfoVm.close()">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

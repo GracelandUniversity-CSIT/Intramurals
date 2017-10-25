@@ -1,0 +1,56 @@
+<md-toolbar class="view-toolbar">
+  <div class="md-toolbar-tools">
+		<span>Accounts</span>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<md-content flex layout="column" flex layout-padding>
+    <form name="newAccountForm" layout="column" layout-padding flex>
+      <div layout="row">
+        <md-autocomplete flex
+          md-no-cache="true"
+          md-selected-item="accountVm.selectedPerson"
+          md-search-text="accountVm.searchText"
+          md-items="person in accountVm.queryPeople(accountVm.searchText) | orderBy: 'name'"
+          md-item-text="person.name"
+          md-min-length="1"
+          placeholder="Search name here">
+          <md-item-template>
+            <span class="item-title">
+              <span>{{person.name}}</span>
+            </span>
+            <md-not-found>
+              <span>Cannot find person with name "<i>{{accountVm.searchText}}</i>"...</span>
+            </md-not-found>
+          </md-item-template>
+        </md-autocomplete>
+      </div>
+      <div layout="row" layout-align="start start" layout-margin>
+        <md-input-container flex>
+          <label>Email (Use to log in)</label>
+          <input required ng-model="accountVm.selectedPerson.Email" type="email"  ng-disabled="!accountVm.selectedPerson"/>
+        </md-input-container>
+        <md-select required placeholder="Position" ng-model="accountVm.selectedPerson.position" ng-disabled="!accountVm.selectedPerson">
+          <md-option value="Board" aria-label="boa">Board</md-option>
+          <md-option value="Rep" aria-label="rep">Rep</md-option>
+        </md-select>
+      </div>
+      <div layout="row" layout-align="end center">
+        <md-button aria-label="" ng-click="accountVm.clickCreate(newAccountForm.$error)" class="md-raised md-primary"  ng-disabled="!accountVm.selectedPerson">Create</md-button>
+      </div>
+    <md-list flex>
+      <md-subheader class="md-no-sticky"><h2>Current</h2></md-subheader>
+      <md-list-item class="secondary-button-padding" ng-repeat="ids in accountVm.accountPeople | orderBy: 'name'">
+          <span>{{ids.name}}</span>
+          <md-select class="md-secondary" aria-label="position" ng-model="ids.position">
+            <md-option value="Board" aria-label="boa">Board</md-option>
+            <md-option value="Rep" aria-label="rep">Rep</md-option>
+            <md-option value="Admin" aria-label="adm" ng-disabled="true">Admin</md-option>
+            <md-option value="Director" aria-label="dir" ng-disabled="true">Director</md-option>
+          </md-select>
+          <md-divider></md-divider>
+      </md-list-item>
+    </md-list>
+  </form>
+
+</md-content>
