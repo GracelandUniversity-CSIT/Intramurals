@@ -2,7 +2,10 @@
   <div flex class="md-toolbar-tools">
     <input ng-model="teamsVm.filterParams.name" placeholder="Search team name here" class="toolbar-text-input"/>
     <span flex></span>
-    <md-button ng-if="rootVm.currentUser.$id" class="md-primary md-raised" aria-label="add" ng-click="teamsVm.clickNew()">New team</md-button>
+    <md-button hide-xs ng-if="rootVm.currentUser.$id" class="md-primary md-raised" aria-label="add" ng-click="teamsVm.clickNew()">New team</md-button>
+    <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="add" ng-click="teamsVm.clickNew()">
+      <md-icon class="material-icons md-light md-48">add</md-icon>
+    </md-button>
   </div>
   <div flex class="md-toolbar-tools">
     <md-select ng-model="teamsVm.filterParams.league" placeholder="League" flex>
@@ -32,8 +35,14 @@
         <p><i>{{teamInfo.membersLabel}}</i></p>
       </div>
       <md-divider></md-divider>
-      <md-button ng-if="rootVm.currentUser.$id" aria-label="edit" class="md-primary md-raised" ng-click="teamsVm.clickEdit($event, teamInfo.$id)">Edit</md-button>
-      <!-- <md-button ng-if="rootVm.currentUser.$id" aria-label="edit" class="md-primary md-raised" ng-click="teamsVm.clickDelete($event, teamInfo.$id)" ng-disabled="true">Delete</md-button> -->
+      <md-button hide-xs ng-if="rootVm.currentUser.$id" aria-label="edit" class="md-primary md-raised" ng-click="teamsVm.clickEdit($event, teamInfo.$id)">Edit</md-button>
+      <!-- <md-button hide-xs ng-if="rootVm.currentUser.$id" aria-label="delete" class="md-primary md-raised" ng-click="teamsVm.clickDelete($event, teamInfo.$id)">Delete</md-button> -->
+      <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="More" ng-click="teamsVm.clickEdit($event, teamInfo.$id)" ng-if="rootVm.currentUser.$id" aria-label="edit">
+        <md-icon class="material-icons md-light md-48">mode_edit</md-icon>
+      </md-button>
+      <!-- <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="More" ng-click="teamsVm.clickDelete($event, teamInfo.$id)" ng-if="rootVm.currentUser.$id" aria-label="delete">
+        <md-icon class="material-icons md-light md-48">delete</md-icon>
+      </md-button> -->
     </md-list-item>
   </md-list>
 </md-content>

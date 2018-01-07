@@ -48,7 +48,10 @@
     <md-divider></md-divider>
     <md-list-item class="secondary-button-padding" ng-repeat="r in rosterVm.roster">
       <p>{{rosterVm.getPersonName(r)}}</p>
-      <md-button aria-label="remove" ng-click="rosterVm.clickRemove(r)">Remove</md-button>
+      <md-button hide-xs class="md-primary md-raised" aria-label="remove" ng-click="rosterVm.clickRemove(r)">Remove</md-button>
+      <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="delete" ng-click="rosterVm.clickRemove(r)" aria-label="delete">
+        <md-icon class="material-icons md-light md-48">delete</md-icon>
+      </md-button>
       <md-divider></md-divider>
     </md-list-item>
   </md-list>

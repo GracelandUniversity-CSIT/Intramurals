@@ -1,0 +1,26 @@
+<md-dialog aria-label="Delete">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Delete</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p>
+          Please confirm you would like to delete this match.
+        </p>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="matchesVm.deleteMatch()">
+        Yes
+      </md-button>
+      <md-button ng-click="matchesVm.cancel()">
+        No
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -7,6 +7,7 @@
 
     function MatchNewController(GameId, Team, Entrant, $mdDialog, $firebaseArray) {
         var vm = this;
+        vm.newScheDate = "";
         vm.newGame = {scheDate:new Date()};
         vm.team = Team;
         vm.submit = submit;
@@ -20,7 +21,8 @@
             vm.newGame[vm.opponent.$id] = {score: 0, sPts: 0};
             vm.newGame.name = (vm.team.name + ' VS ' + vm.opponent.name).toUpperCase();
             vm.newGame.touched = false;
-            vm.newGame.scheDate = (vm.newGame.scheDate instanceof Date)? vm.newGame.scheDate.getTime() : new Date().getTime();
+            // vm.newGame.scheDate = (vm.newScheDate instanceof Date)? vm.newScheDate.getTime() : new Date().getTime();
+            vm.newGame.scheDate = new Date(vm.newScheDate).getTime();
             vm.newGame.teams = {};
             vm.newGame.teams[vm.team.$id] = true;
             vm.newGame.teams[vm.opponent.$id] = true;

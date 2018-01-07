@@ -7,14 +7,14 @@
       if(data && imp.isUpper(data.uid, imp.uids)) {
 
       } else {
-        $state.go('root.games');
+        $state.go('root.leagues');
       }
     });
 
     var vm = this;
     vm.sports = {};
 
-    $firebaseArray(firebase.database().ref('sport').orderByChild('name')).$loaded().then(function(sports) {
+    $firebaseArray(firebase.database().ref('leagues').orderByChild('name')).$loaded().then(function(sports) {
         vm.sports = sports;
         $firebaseObject(firebase.database().ref('matches')).$loaded().then(function(matches) {
             angular.forEach(vm.sports, function(obj) {

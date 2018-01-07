@@ -6,7 +6,7 @@
       if(data) {
 
       } else {
-        $state.go('root.games');
+        $state.go('root.leagues');
       }
     });
     var vm = this;
@@ -17,7 +17,7 @@
 
     vm.clickSave = clickSave;
 
-    $firebaseObject(firebase.database().ref('sport/'+vm.gamesId)).$loaded().then(function(sport) {
+    $firebaseObject(firebase.database().ref('leagues/'+vm.gamesId)).$loaded().then(function(sport) {
         vm.sport = sport;
         $firebaseArray(firebase.database().ref('team').orderByChild('name')).$loaded().then(function(teams) {
             vm.teams = teams.filter(function(team) {

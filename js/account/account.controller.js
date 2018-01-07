@@ -7,7 +7,7 @@
       if(data && imp.isUpper(data.uid, imp.uids)) {
 
       } else {
-        $state.go('root.games');
+        $state.go('root.leagues');
       }
     });
 
@@ -18,27 +18,56 @@
     vm.peopleRef = [];
     vm.houses = {};
     vm.positions = {
-        adm: 'Admin',
-        dir: 'Director',
-        boa: 'Board',
-        rep: 'Rep'
+      adm: 'Admin',
+      dir: 'Director',
+      boa: 'Board',
+      rep: 'Rep'
     }
     vm.clickCreate = clickCreate;
     vm.queryPeople = queryPeople;
+    vm.deleteRep = deleteRep;
 
-    // startUp();
-
-    $firebaseArray(firebase.database().ref('account')).$loaded().then(function(accounts) {
-        vm.accounts = accounts;
-        $firebaseArray(firebase.database().ref('people')).$loaded().then(function(people) {
-            vm.peopleRef = people;
-            angular.forEach(vm.accounts, function(account) {
-              if(account.person !== 'admin') {
-                vm.accountPeople.push(vm.peopleRef.$getRecord(account.person));
-              }
-            });
+    // restart();
+    function restart() {
+      vm.accounts = [];
+      vm.accountPeople = [];
+      vm.peopleRef = [];
+      vm.accounts = $firebaseArray(firebase.database().ref('account'));
+      $firebaseArray(firebase.database().ref('people')).$loaded().then(function(people) {
+        vm.peopleRef = people;
+        angular.forEach(vm.accounts, function(account) {
+          if(account.person !== 'admin') {
+            vm.peopleRef.$getRecord(account.person).$uid = account.$id;
+            vm.accountPeople.push(vm.peopleRef.$getRecord(account.person));
+          }
         });
+      });
+    }
+
+    vm.accounts = $firebaseArray(firebase.database().ref('account'));
+    $firebaseArray(firebase.database().ref('people')).$loaded().then(function(people) {
+      vm.peopleRef = people;
+      angular.forEach(vm.accounts, function(account) {
+        if(account.person !== 'admin') {
+          vm.peopleRef.$getRecord(account.person).$uid = account.$id;
+          vm.accountPeople.push(vm.peopleRef.$getRecord(account.person));
+        }
+      });
     });
+
+
+    // $firebaseArray(firebase.database().ref('account')).$loaded().then(function(accounts) {
+    //     vm.accounts = accounts;
+    //     $firebaseArray(firebase.database().ref('people')).$loaded().then(function(people) {
+    //         vm.peopleRef = people;
+    //         angular.forEach(vm.accounts, function(account) {
+    //           if(account.person !== 'admin') {
+    //             vm.peopleRef.$getRecord(account.person).$uid = account.$id;
+    //             vm.accountPeople.push(vm.peopleRef.$getRecord(account.person));
+    //           }
+    //         });
+    //     });
+    // });
 
     // firebase.auth().onAuthStateChanged(function(user) {
     //   vm.currentUser = user;
@@ -51,6 +80,22 @@
       return vm.peopleRef.filter(function(obj) {
         return obj.name.toLowerCase().indexOf(text.toLowerCase()) > -1 && !obj.position;
       });
+    }
+
+    function deleteRep(uid) {
+      var user = firebase.auth().currentUser;
+      console.log(user);
+      // console.log(uid);
+      // console.log(vm.accountPeople);
+      // vm.accountRef = $firebaseObject(firebase.database().ref('account/'+uid));
+      // console.log(vm.accountRef);
+      // vm.accountRef.$remove().then(function(ref) {
+      //   // data has been deleted locally and in the database
+      //   restart();
+      //   // close();
+      // }, function(error) {
+      //   console.log("Error:", error);
+      // });
     }
 
     function clickCreate(obj) {
@@ -93,12 +138,12 @@
 
     function wlogin() {
       $firebaseAuth().$signInWithEmailAndPassword(vm.loginPage.email, vm.loginPage.password)
-        .then(function(data) {
-          console.log('Sign in successful');
-          $state.go('root.games');
-        }).catch(function(err) {
-          vm.errors[err.code] = true;
-        });
+      .then(function(data) {
+        console.log('Sign in successful');
+        $state.go('root.leagues');
+      }).catch(function(err) {
+        vm.errors[err.code] = true;
+      });
     }
 
     function wforgotPwd(obj) {

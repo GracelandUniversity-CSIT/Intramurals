@@ -10,7 +10,7 @@
     vm.clickDelete = clickDelete;
     vm.clickGame = clickGame;
 
-    $firebaseArray(firebase.database().ref().child('sport').orderByChild('name')).$loaded().then(function(data) {
+    $firebaseArray(firebase.database().ref().child('leagues').orderByChild('name')).$loaded().then(function(data) {
         vm.sports = data;
     });
 

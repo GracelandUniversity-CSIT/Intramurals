@@ -6,7 +6,7 @@
       if(data) {
 
       } else {
-        $state.go('root.games');
+        $state.go('root.leagues');
       }
     });
     var vm = this;
@@ -21,6 +21,7 @@
     vm.peopleList = [];
     vm.dateSet = false;
     vm.scheDate = new Date();
+    vm.datepicker = "";
 
     vm.getPersonName = getPersonName;
     vm.selectedStaffChange = selectedStaffChange;
@@ -47,7 +48,8 @@
         vm.match = match;
         if(!vm.match.scheDate) vm.match.scheDate = new Date();
         else vm.match.scheDate = new Date(vm.match.scheDate);
-        $firebaseObject(firebase.database().ref('sport/'+vm.gamesId)).$loaded().then(function(sport) {
+        // console.log(vm.match.scheDate);
+        $firebaseObject(firebase.database().ref('leagues/'+vm.gamesId)).$loaded().then(function(sport) {
             vm.sport = sport;
             $firebaseArray(firebase.database().ref('team')).$loaded().then(function(teams) {
                 let team1 = vm.match.name.split(' VS ')[0].trim();
@@ -111,8 +113,12 @@
     }
 
     function saveDate(val) {
-      if(val instanceof Date) {
-          vm.match.scheDate = val.getTime();
+      var value = new Date(val);
+      // console.log("saveDate before loop: " + val);
+      // console.log(value instanceof Date);
+      if(value instanceof Date) {
+          // console.log(val);
+          vm.match.scheDate = value.getTime();
           vm.match.$save().then(function() {
               vm.tabIndex++;
              console.log('Edit schedule date');

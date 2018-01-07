@@ -4,7 +4,7 @@
   function route($stateProvider) {
     $stateProvider
       .state('root.matches', {
-        url: '/games/{gamesId}/matches',
+        url: '/leagues/{gamesId}/matches',
         views : {
           'mainView': {
             templateUrl: 'js/matches/matches.component.html',

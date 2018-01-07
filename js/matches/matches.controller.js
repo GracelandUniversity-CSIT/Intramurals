@@ -14,6 +14,7 @@
 		vm.matches = [];
 		vm.overall = {};
 		vm.overallMatches = {};
+		vm.tableOrder = "-wlratio";
 
 		vm.prelimRef = [];
 		vm.prelimScoreRef = [];
@@ -39,21 +40,23 @@
 		vm.addMatch = addMatch;
 		vm.getMatchName = getMatchName;
 		vm.clickMatch = clickMatch;
+		vm.deleteMatch = deleteMatch;
 
-		$firebaseObject(firebase.database().ref('sport/'+vm.gamesId)).$loaded().then(function(sport) {
+		$firebaseObject(firebase.database().ref('leagues/'+vm.gamesId)).$loaded().then(function(sport) {
 			vm.sport = sport;
 			$firebaseArray(firebase.database().ref('team').orderByChild('name')).$loaded().then(function(teams) {
 				vm.entrant = vm.sport.entrant? Object.keys(vm.sport.entrant).map(function(teamId) {
 					vm.overall[teamId] = {wins: 0, losses: 0, wlratio: 0, ties: 0};
 					vm.overallMatches[teamId] = [];
+
 					return teams.$getRecord(teamId);
 				}) : [];
 				$firebaseArray(firebase.database().ref('matches/'+vm.gamesId).orderByChild('date')).$loaded().then(function(matches) {
 					vm.matches = matches;
 					if(matches.length > 0) {
-						console.log(matches)
+						// console.log(matches)
 						angular.forEach(matches, function(match) {
-							
+
 							for(var i in vm.entrant) {
 								if(match[vm.entrant[i].$id]) {
 									vm.overallMatches[vm.entrant[i].$id].push(match);
@@ -73,8 +76,18 @@
 									vm.overall[key].ties++;
 								}
 							}
-
 							vm.overall[key].wlratio = (vm.overall[key].wins) / (vm.overall[key].wins + vm.overall[key].losses + vm.overall[key].ties);
+							// console.log(vm.overall[key].wlratio);
+							if(isNaN(vm.overall[key].wlratio)) {
+								vm.overall[key].wlratio = 0;
+							}
+						});
+						angular.forEach(vm.entrant, function(val,key) {
+							vm.entrant[key].wins = vm.overall[Object.keys(vm.overall)[key]].wins;
+							vm.entrant[key].losses = vm.overall[Object.keys(vm.overall)[key]].losses;
+							vm.entrant[key].wlratio = vm.overall[Object.keys(vm.overall)[key]].wlratio;
+							vm.entrant[key].ties = vm.overall[Object.keys(vm.overall)[key]].ties;
+							// vm.entrant[key].push(vm.overall[Object.keys(vm.overall)[key]]);
 						});
 					}
 				});
@@ -85,8 +98,10 @@
 			return matchName.replace(teamName.toUpperCase(), '').replace('VS', '').trim();
 		}
 
-		function clickMatch(mId) {
-			$state.go('root.matches-info',{gamesId: vm.gamesId, matchId: mId});
+		function clickMatch(mId,uid) {
+			if(uid) {
+				$state.go('root.matches-info',{gamesId: vm.gamesId, matchId: mId});
+			}
 		}
 
 		function addMatch(ev, team) {
@@ -172,6 +187,29 @@
 				update['prelimScore/'+vm.gamesId+'/'+vm.leagueId+'/'] = {};
 				firebase.database().ref().update(update);
 				vm.showButtons = true;
+			});
+		}
+
+		function deleteMatch(ev, matchID) {
+			// console.log(matchID);
+			$mdDialog.show(
+				$mdDialog.confirm()
+				.title('Delete Match Confirmation')
+				.textContent('Are you sure you want to clear this match and its information?')
+				.ariaLabel('Clear Prelim')
+				.targetEvent(ev)
+				.ok('Yes')
+				.cancel('No')
+			).then(function() {
+				//Insert Delete stuff
+				vm.matchRef = $firebaseObject(firebase.database().ref('matches/'+vm.gamesId+"/"+matchID));
+				vm.matchRef.$remove().then(function(ref) {
+          // data has been deleted locally and in the database
+					 $state.go('root.matches', {gamesId: vm.gamesId});
+           $mdDialog.hide();
+        }, function(error) {
+          console.log("Error:", error);
+        });
 			});
 		}
 

@@ -75,3 +75,9 @@ a.active {
 .center {
     text-align: center;
 }
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2), .table-column-padding {
+      padding: 0;
+    }
+}

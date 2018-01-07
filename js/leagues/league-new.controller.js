@@ -3,7 +3,7 @@
   angular.module('app').controller('GameNewController', GameNewController);
   function GameNewController($mdDialog, $scope, $firebaseArray) {
     var vm = this;
-    vm.fireRef = $firebaseArray(firebase.database().ref().child('sport'));
+    vm.fireRef = $firebaseArray(firebase.database().ref().child('leagues'));
     vm.result = {
       league: {
         A:false,
@@ -41,6 +41,7 @@
             console.log(vm.result.league[vm.leagues[league].value]);
 
             if(vm.result.league[vm.leagues[league].value]) {
+                console.log(vm.result);
                 var temp = {
                     inSeason: vm.result.inSeason || false,
                     league: vm.leagues[league].value,

@@ -1,11 +1,17 @@
 <md-dialog aria-label="sport info" flex-xs="90">
-  <form ng-submit="gamesInfoVm.submit()">
+  <form ng-submit="gamesInfoVm.submit()" name="leagueForm">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <span>Games</span>
+        <span>Leagues</span>
       </div>
     </md-toolbar>
     <md-dialog-content layout="column" layout-margin class="dialog-popup">
+      <div ng-messages="peopleInfoVm.errors" style="color:red" flex>
+        <div ng-message="blank">Please enter the fields below.</div>
+        <div ng-message="forgotLeagueName">Please enter a league name.</div>
+        <div ng-message="forgotEmail">Please select a gender or none.</div>
+        <div ng-message="forgotHouse">Please select a type of league.</div>
+      </div>
       <div layout="row" layout-align="end center" flex>
         <md-switch ng-model="gamesInfoVm.result.inSeason" aria-label="in season switch">
           <span ng-if="!gamesInfoVm.result.inSeason">Not</span> In season
@@ -13,7 +19,10 @@
       </div>
       <md-input-container flex>
         <label>Name</label>
-        <input type="text" ng-model="gamesInfoVm.result.name">
+        <input name="leagueName" type="text" ng-model="gamesInfoVm.result.name" required>
+        <div ng-messages="leagueForm.leagueName.$error">
+          <div ng-message-exp="['required', 'leagueName']">Please enter a league name.</div>
+        </div>
       </md-input-container>
       <md-radio-group layout-wrap flex layout="row" layout-margin ng-model="gamesInfoVm.result.type" layout-align="center center">
         <md-radio-button value="1">Womens</md-radio-button>

@@ -1,23 +1,38 @@
 <md-dialog aria-label="people info" flex="50" flex-xs="90">
-  <form ng-submit="peopleInfoVm.submit()">
+  <form ng-submit="peopleInfoVm.submit()" name="personForm">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <span>People Info Dialog</span>
-        <span flex></span>
+        <span flex>
+
+        </span>
+          <md-button ng-if="!rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" ng-show="peopleInfoVm.result.$id" aria-label="delete" class="md-warn md-raised" ng-click="peopleInfoVm.deletePerson()">Delete</md-button>
       </div>
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content" flex layout="column">
+        <div ng-messages="peopleInfoVm.errors" style="color:red" flex>
+    			<div ng-message="blank">Please enter person's details.</div>
+    			<div ng-message="forgotEmail">Please enter a person's name.</div>
+    			<div ng-message="forgotHouse">Please enter a person's house.</div>
+        </div>
         <md-input-container flex>
           <label>Name</label>
-          <input ng-model="peopleInfoVm.result.name"/>
+          <input name="personName" ng-model="peopleInfoVm.result.name" required/>
+          <div ng-messages="personForm.personName.$error">
+    				<div ng-message-exp="['required', 'personName']">Please enter person's name.</div>
+    			</div>
         </md-input-container>
         <md-input-container>
           <label>House</label>
-          <md-select ng-model="peopleInfoVm.house">
+          <md-select name="personHouse" ng-model="peopleInfoVm.house" required>
             <md-option aria-label="key" ng-repeat="house in peopleInfoVm.houses" ng-value="house.$id">{{house.name}}</md-option>
           </md-select>
+          <div ng-messages="personForm.personHouse.$error">
+    				<div ng-message-exp="['required', 'personHouse']">Please enter person's house.</div>
+    			</div>
         </md-input-container>
+        <span>Team Name: {{peopleInfoVm.result.teamName ? peopleInfoVm.result.teamName : 'No Team Assigned'}}</span>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row" layout-align="end center">

@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="static/angular-material.min.css"/>
     <link rel="stylesheet" href="static/md-data-table.min.css"/>
     <link rel="stylesheet" href="static/sc-date-time.css"/>
+    <link rel="stylesheet" href="static/angular-moment-picker.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link rel="stylesheet" href="css/index.css"/>
+    <link rel="icon" href="https://my.graceland.edu/favicon.ico?v=1">
   </head>
   <body layout="row">
     <div ui-view flex layout="column"></div>
@@ -26,6 +28,10 @@
     <script src="static/angularfire.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
 
+    <!-- Moment JS, Angular Moment Picker -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.js"></script>
+    <script src="static/angular-moment-picker.js"></script>
+
     <script src="js/app.modules.js"></script>
     <script src="js/app.route.js"></script>
     <script src="js/app.constants.js"></script>
@@ -34,7 +40,7 @@
     <script src="js/root/root.controller.js"></script>
 
     <script src="js/account/account.controller.js"></script>
-    <script src="js/account/account-login.controller.js"></script>    
+    <script src="js/account/account-login.controller.js"></script>
     <script src="js/account/account.route.js"></script>
 
     <script src="js/roster/roster.controller.js"></script>
@@ -43,10 +49,10 @@
     <script src="js/entrant/entrant.controller.js"></script>
     <script src="js/entrant/entrant.route.js"></script>
 
-    <script src="js/games/games.controller.js"></script>
-    <script src="js/games/games.route.js"></script>
-    <script src="js/games/game-info.controller.js"></script>
-    <script src="js/games/game-new.controller.js"></script>
+    <script src="js/leagues/leagues.controller.js"></script>
+    <script src="js/leagues/leagues.route.js"></script>
+    <script src="js/leagues/league-info.controller.js"></script>
+    <script src="js/leagues/league-new.controller.js"></script>
 
     <script src="js/matches/matches.controller.js"></script>
     <script src="js/matches/matches-new.controller.js"></script>

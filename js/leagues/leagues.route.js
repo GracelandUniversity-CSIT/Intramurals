@@ -3,11 +3,11 @@
   angular.module('app').config(route);
   function route($stateProvider) {
     $stateProvider
-      .state('root.games', {
-        url: '/games',
+      .state('root.leagues', {
+        url: '/leagues',
         views : {
           'mainView': {
-            templateUrl: 'js/games/games.component.html',
+            templateUrl: 'js/leagues/leagues.component.html',
             controller: 'GamesController',
             controllerAs: 'gamesVm'
           }

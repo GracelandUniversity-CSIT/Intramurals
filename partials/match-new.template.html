@@ -23,7 +23,9 @@
                   </md-select>
               </md-input-container>
           </div>
-          <time-date-picker flex display-mode="full" ng-model="matchNewVm.newGame.scheDate" orientation="false" autosave="true"></time-date-picker>
+          <!-- <time-date-picker flex display-mode="full" ng-model="matchNewVm.newGame.scheDate" orientation="false" autosave="true"></time-date-picker> -->
+          <span moment-picker="matchNewVm.newScheDate" format="LLLL" max-view="hour"><md-button class="md-primary md-raised">{{matchNewVm.newScheDate || 'Please select a new date'}}</md-button></span>
+          <!-- <md-button ng-hide="matchesInfoVm.match.touched" class="md-primary md-raised" ng-click="matchesInfoVm.saveDate(matchesInfoVm.datepicker)">Save Date</md-button> -->
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row" layout-align="end center">

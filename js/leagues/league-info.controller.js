@@ -9,11 +9,11 @@
     vm.close = close;
     vm.deleteGame = deleteGame;
 
-    vm.result = $firebaseObject(firebase.database().ref('sport/'+game));
+    vm.result = $firebaseObject(firebase.database().ref('leagues/'+game));
 
     function submit() {
       //   var temp = {};
-      //   temp['sport/'+game] = vm.result;
+      //   temp['leagues/'+game] = vm.result;
       //   return firebase.database().ref().update(temp).then(function() {
       //     $mdDialog.hide({type:'edit', name:vm.result.name});
       //   });

@@ -7,7 +7,7 @@
       if(data) {
 
       } else {
-        $state.go('root.games');
+        $state.go('root.leagues');
       }
     });
 

@@ -16,7 +16,7 @@
         .then(function(data) {
           $mdDialog.hide(data);
           //console.log('Sign in successful');
-          //$state.go('root.games');
+          //$state.go('root.leagues');
         }).catch(function(err) {
           vm.errors[err.code] = true;
         });

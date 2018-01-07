@@ -2,7 +2,10 @@
   <div class="md-toolbar-tools">
       <input class="toolbar-text-input" type="text" placeholder="Events" ng-model="gamesVm.name"/>
       <span flex></span>
-      <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" class="md-raised md-primary" aria-label="add game" ng-click="gamesVm.clickAdd($event)">Add</md-button>
+      <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="add" ng-click="gamesVm.clickAdd($event)">
+        <md-icon class="material-icons md-light md-48">add</md-icon>
+      </md-button>
+      <md-button hide-xs ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" class="md-raised md-primary" aria-label="add game" ng-click="gamesVm.clickAdd($event)">Add</md-button>
   </div>
 </md-toolbar>
 <md-content layout="column" ng-cloak flex layout-margin md-scroll-y>
@@ -11,9 +14,17 @@
         <div flex class="md-list-item-text">
             <h4 ng-class="{faded: !sport.inSeason, active: sport.inSeason}">{{sport.name}}</h4>
         </div>
-        <div>
+        <div hide-xs>
           <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="edit" ng-click="gamesVm.clickEdit($event, sport)" class="md-primary md-raised">Edit</md-button>
           <md-button ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="edit" ng-click="gamesVm.clickDelete($event, sport)" class="md-primary md-raised">Delete</md-button>
+        </div>
+        <div show-xs hide-gt-xs>
+          <md-button class="md-fab md-mini md-primary" aria-label="edit" ng-click="gamesVm.clickEdit($event, sport)" ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="edit">
+            <md-icon class="material-icons md-light md-48">mode_edit</md-icon>
+          </md-button>
+          <md-button class="md-fab md-mini md-primary" aria-label="delete" ng-click="gamesVm.clickDelete($event, sport)" ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="delete">
+            <md-icon class="material-icons md-light md-48">delete</md-icon>
+          </md-button>
         </div>
 
         <md-divider></md-divider>

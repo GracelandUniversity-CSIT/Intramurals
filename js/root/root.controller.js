@@ -33,7 +33,7 @@
     //
     //   firebase.auth().onAuthStateChanged(function(user) {
     //     $scope.currentUser = user;
-    //     // $state.go('root.games');
+    //     // $state.go('root.leagues');
     //   });
     // });
 
@@ -46,7 +46,7 @@
     function signOut() {
       $firebaseAuth().$signOut().then(function() {
         vm.currentUser = {};
-        $state.go('root.games');
+        $state.go('root.leagues');
       });
     }
 

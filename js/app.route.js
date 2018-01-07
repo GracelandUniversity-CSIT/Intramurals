@@ -2,7 +2,7 @@
   'use strict';
   angular.module('app').config(routes);
   function routes($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/games');
+    $urlRouterProvider.otherwise('/leagues');
     $stateProvider
       .state('root', {
         url: '',

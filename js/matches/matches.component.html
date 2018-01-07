@@ -20,22 +20,22 @@
       </div>
       <md-table-container flex ng-if="matchesVm.sport.entrant">
         <table md-table>
-          <thead md-head>
+          <thead md-head md-order="matchesVm.tableOrder">
             <tr md-row>
               <th md-column>Teams</th>
-              <th md-column>Wins</th>
-              <th md-column>Loss</th>
-              <th md-column>Ties</th>
-              <th md-column>W/L Ratio</th>
+              <th md-column md-order-by="wins" class="table-column-padding">Wins</th>
+              <th md-column md-order-by="losses" class="table-column-padding">Loss</th>
+              <th md-column md-order-by="ties" class="table-column-padding">Ties</th>
+              <th md-column md-order-by="wlratio" class="table-column-padding">W/L Ratio</th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row class="button-pointer" ng-repeat="t in matchesVm.entrant | orderBy: 'wlratio'" ng-click="matchesVm.clickTeam(t, $index)">
+            <tr md-row class="button-pointer" ng-repeat="t in matchesVm.entrant | orderBy: matchesVm.tableOrder" ng-click="matchesVm.clickTeam(t, $index)">
               <td md-cell>{{t.name}}</td>
-              <td md-cell>{{matchesVm.overall[t.$id].wins}}</td>
-              <td md-cell>{{matchesVm.overall[t.$id].losses}}</td>
-              <td md-cell>{{matchesVm.overall[t.$id].ties}}</td>
-              <td md-cell>{{matchesVm.overall[t.$id].wlratio | number: 2}}</td>
+              <td md-cell>{{t.wins}}</td>
+              <td md-cell>{{t.losses}}</td>
+              <td md-cell>{{t.ties}}</td>
+              <td md-cell>{{t.wlratio | number: 2}}</td>
             </tr>
           </tbody>
         </table>
@@ -58,11 +58,12 @@
               <th md-column>Opponent</th>
               <th md-column>Score</th>
               <th md-column>Result</th>
+              <th md-column></th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row ng-repeat="m in matchesVm.overallMatches[matchesVm.selectedTeam.$id] | orderBy: '-scheDate'"
-                ng-click="matchesVm.clickMatch(m.$id)"
+            <tr class="button-pointer" md-row ng-repeat="m in matchesVm.overallMatches[matchesVm.selectedTeam.$id] | orderBy: '-scheDate'"
+                ng-click="matchesVm.clickMatch(m.$id,rootVm.currentUser.$id)"
               md-auto-select>
               <td md-cell>{{matchesVm.getMatchName(m.name, matchesVm.selectedTeam.name)}}</td>
               <td md-cell>
@@ -73,6 +74,12 @@
                   <!-- {{matchesVm.prelim.score[matchesVm.rrTable[matchesVm.slotIdx][$index]][matchesVm.selectedTeam.id].result}} -->
                   <span ng-if="m.touched">{{m[matchesVm.selectedTeam.$id].result}}</span>
                   <span ng-if="!m.touched">-</span>
+              </td>
+              <td md-cell>
+                <md-button class="md-primary md-raised" hide-xs ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="delete" ng-click="matchesVm.deleteMatch($event, m.$id)" >Delete Match</md-button>
+                <md-button show-xs hide-gt-xs class="md-fab md-mini md-primary" aria-label="delete" ng-click="matchesVm.deleteMatch($event, m.$id)" ng-if="rootVm.isUpper(rootVm.currentUser.$id, rootVm.uids)" aria-label="delete">
+                  <md-icon class="material-icons md-light md-48">delete</md-icon>
+                </md-button>
               </td>
             </tr>
           </tbody>
